@@ -1,0 +1,117 @@
+<?page title="Génération de notes"?>
+<window title="Admin" border="normal"
+	apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.geonotes.GestionParcoursVM')"
+	xmlns:html="http://www.w3.org/1999/xhtml" width="768px"
+	style="margin-right: auto; margin-left: auto;">
+	<vlayout>
+		<script type="text/javascript"
+			content="zk.googleAPIkey='AIzaSyDEcunx52C9AN1WI2C53b3wSn4n6c7CdD8'" />
+		<gmaps id="mymap" version="3.5" width="100%" height="400px"
+			showSmallCtrl="true" lat="45.451461" lng="4.386189">
+			<attribute name="onMapMove">
+				<![CDATA[
+					/*mymark.setLat(mymap.getLat());
+					 mymark.setLng(mymap.getLng());
+					 latT.setValue(mymap.getLat());
+					 lngT.setValue(mymap.getLng());*/
+				]]>
+			</attribute>
+			<attribute name="onMapZoom">
+				<![CDATA[]]>
+        	</attribute>
+			<attribute name="onMapClick">
+				<![CDATA[
+				double lat = event.lat;
+				double lng = event.lng;
+				mymark.setLat(lat);
+				mymark.setLng(lng);
+				latT.setValue(lat);
+				lngT.setValue(lng);
+				]]>
+			</attribute>
+			<gmarker id="mymark" lat="45.451461" lng="4.386189">
+				<attribute name="content">
+					<![CDATA[ //Hello, <a
+					href="http://www.zkoss.org">ZK</a> on top of
+					Gmarker. ]]>
+				</attribute>
+			</gmarker>
+		</gmaps>
+		<groupbox>
+			<caption label="Création d'une note"/>
+			<hlayout>
+				<grid zclass="none">
+					<columns>
+						<column width="80px"/>
+						<column width="300px"/>
+					</columns>
+					<rows>
+						<row>
+							<label value="Latitude" width="100%"/>
+							<doublebox id="latT" value="45.451461"
+								onChange="mymark.setLat(latT.getValue())" />
+						</row>
+						<row>
+							<label value="Longitude" width="100%"/>
+							<doublebox id="lngT" value="4.386189"
+								onChange="mymark.setLng(lngT.getValue())" />
+						</row>
+						<row>
+							<label value="Note" />
+							<textbox id="com" rows="5000" width="100%" height="100px">
+								<attribute name="onChanging">
+									<![CDATA[
+										if (!com.getText().equals("") && com.getText() != null
+												&& latT.getValue() != null && lngT.getValue() != null) {
+											valider.setDisabled(false);
+										} else {
+											valider.setDisabled(true);
+										}
+									]]>
+								</attribute>
+								<attribute name="onChange">
+									<![CDATA[
+										if (!com.getText().equals("") && com.getText() != null
+												&& latT.getValue() != null && lngT.getValue() != null) {
+											valider.setDisabled(false);
+										} else {
+											valider.setDisabled(true);
+										}
+									]]>
+								</attribute>
+							</textbox>
+						</row>
+					</rows>
+				</grid>
+				<vlayout>
+					<label>
+						Sélectionnez un point et tapez une note afin de pouvoir
+					</label>
+					<label>
+						l'enregistrer.
+					</label>
+				</vlayout>
+			</hlayout>
+			<button id="valider" disabled="true" label="Enregistrer"
+						onClick="@command('ajouterNote', c=com.getText(), l=latT.getValue(), h=lngT.getValue())"
+						style="margin-left: auto; margin-right: auto;" />
+		</groupbox>
+		<hlayout>
+			<button label="Créer un parcours">
+				<attribute name="onClick">
+					<![CDATA[
+						Executions.sendRedirect("./parcours.zul");
+					]]>
+				</attribute>
+			</button>
+			<button label="Gérer/Visionner les parcours">
+				<attribute name="onClick">
+					<![CDATA[
+						Executions.sendRedirect("./gestionparcours.zul");
+					]]>
+				</attribute>
+			</button>
+		</hlayout>
+	</vlayout>
+</window>

@@ -1,0 +1,135 @@
+<?page title="Génération de notes"?>
+<window id="win" title="Client" border="normal"
+	apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.geonotes.GestionParcoursClientVM')"
+	xmlns:html="http://www.w3.org/1999/xhtml" width="768px"
+	style="margin-right: auto; margin-left: auto;">
+	<hbox id="hbox" width="100%" height="400px" visible="false">
+		<script type="text/javascript"
+			content="zk.googleAPIkey='AIzaSyDEcunx52C9AN1WI2C53b3wSn4n6c7CdD8'" />
+		<gmaps id="mymap" version="3.5" width="538px" height="400px"
+			showSmallCtrl="true" lat="45.451461" lng="4.386189"
+			visible="false">
+			<attribute name="onMapMove"><![CDATA[
+        ]]></attribute>
+			<attribute name="onMapZoom"><![CDATA[
+        ]]></attribute>
+			<attribute name="onMapClick"><![CDATA[
+        ]]></attribute>
+		</gmaps>
+		<div id="panel" width="200px" height="400px"
+			style="overflow: auto;" />
+	</hbox>
+	<gdirection id="gdirection"
+		onCreate='self.setMap(mymap);self.setPanel(panel);'>
+	</gdirection>
+	<label id="label" value="Sélectionnez un parcours" />
+	<listbox id="box3" checkmark="true" multiple="false"
+		model="@load(vm.listParcours)">
+		<listhead>
+			<listheader label="Commentaire" align="center"
+				sort="auto(model)" />
+			<listheader label="Catégorie" align="center"
+				sort="auto(make)" />
+			<listheader label="Distance (Km)" align="center"
+				sort="auto(type)" />
+		</listhead>
+		<template name="model" var="parcours">
+			<listitem self="@bind(parcours)" value="@{event}"
+				checkable="true">
+				<listcell label="@bind(parcours.commentaire)"
+					height="25px"
+					onClick="@command('selectionnerParcours', p=parcours)">
+					<attribute name="onClick"><![CDATA[
+	button.setLabel("Voir le parcours");
+	com.geonotes.GestionParcoursClientVM.setEtape(0);
+]]></attribute>
+				</listcell>
+				<listcell label="@bind(parcours.categorie)"
+					height="25px"
+					onClick="@command('selectionnerParcours', p=parcours)">
+					<attribute name="onClick"><![CDATA[
+	button.setLabel("Voir le parcours");
+	com.geonotes.GestionParcoursClientVM.setEtape(0);
+]]></attribute>
+				</listcell>
+				<listcell label="@bind(parcours.distance)" height="25px"
+					onClick="@command('selectionnerParcours', p=parcours)">
+					<attribute name="onClick"><![CDATA[
+	com.geonotes.GestionParcoursClientVM.setEtape(0);
+	button.setLabel("Voir le parcours");
+]]></attribute>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+	<button id="button" label="Voir le parcours">
+		<attribute name="onClick"><![CDATA[
+	hbox.setVisible(true);
+	panel.setVisible(true);
+	mymap.setVisible(true);
+	int j = com.geonotes.GestionParcoursClientVM.getEtape();
+	gdirection.setDirection(
+			""
+					+ com.geonotes.GestionParcoursClientVM.recupererParcours()
+							.get(j).getLon()
+					+ ","
+					+ ""
+					+ com.geonotes.GestionParcoursClientVM.recupererParcours()
+							.get(j).getLat(),
+			""
+					+ com.geonotes.GestionParcoursClientVM.recupererParcours()
+							.get(j + 1).getLon()
+					+ ","
+					+ ""
+					+ com.geonotes.GestionParcoursClientVM.recupererParcours()
+							.get(j + 1).getLat());
+	for (int i = 0; i < gdirection.getDirection().length; i++) {
+		System.out.println("direction = "
+				+ gdirection.getDirection()[i].toString());
+	}
+
+	if (j < com.geonotes.GestionParcoursClientVM.recupererParcours().size() - 2) {
+		com.geonotes.GestionParcoursClientVM.setEtape(j + 1);
+		button.setLabel("Etape suivante");
+	} else {
+		com.geonotes.GestionParcoursClientVM.setEtape(0);
+	}
+]]></attribute>
+	</button>
+	<button label="Rafraichir la page">
+		<attribute name="onClick"><![CDATA[
+	Executions.sendRedirect("./index.zul");
+]]></attribute>
+	</button>
+
+	<button label="Envoyer un mail comportant mon parcours à un ami">
+		<attribute name="onClick"><![CDATA[
+	mail.doPopup();
+	mail.setVisible(true);
+]]></attribute>
+	</button>
+	<window id="mail" visible="false" minheight="350" sclass="sysWin"
+		title="Email" border="normal" width="460px" position="center,center"
+		closable="true" action="show: slideDown;hide: slideUp"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.geonotes.GestionParcoursClientVM')"
+		xmlns:html="http://www.w3.org/1999/xhtml">
+		<label value="Envoyer un mail à : " />
+		<textbox id="to" />
+		<html:br />
+		<label value="Sujet : " />
+		<textbox id="subject" value="Mon parcours" />
+		<label
+			value="Texte (sera suivit par un lien vers votre parcours): " />
+		<textbox id="body"
+			value="Bonjour, voici le parcours que j'ai choisit : " rows="5000"
+			width="300px" height="100px" />
+		<button label="Envoyer">
+			<attribute name="onClick"><![CDATA[
+	com.geonotes.GestionParcoursClientVM.sendMail(to.getText(),
+			subject.getText(), body.getText());
+]]></attribute>
+		</button>
+	</window>
+</window>

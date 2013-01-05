@@ -1,0 +1,5 @@
+<window width="80%" title="Session Timeout" border="normal">
+	<zscript><![CDATA[
+	           Executions.sendRedirect("./index.zul");
+	           ]]></zscript>
+</window>

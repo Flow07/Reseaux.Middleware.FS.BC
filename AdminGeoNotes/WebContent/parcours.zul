@@ -1,0 +1,239 @@
+<?page title="Parcours"?>
+<window title="Admin" border="normal"
+	apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.geonotes.GestionParcoursVM')"
+	xmlns:html="http://www.w3.org/1999/xhtml" width="768px"
+	style="margin-right: auto; margin-left: auto;">
+	<script type="text/javascript"
+		content="zk.googleAPIkey='AIzaSyDEcunx52C9AN1WI2C53b3wSn4n6c7CdD8'" />
+	<gmaps id="mymap" version="3.5" width="100%" height="400px"
+		showSmallCtrl="true" lat="45.451461" lng="4.386189" visible="false">
+		<attribute name="onMapMove">
+			<![CDATA[]]>
+        </attribute>
+		<attribute name="onMapZoom">
+			<![CDATA[]]>
+		</attribute>
+		<attribute name="onMapClick">
+			<![CDATA[]]>
+		</attribute>
+	</gmaps>
+	<label id="txt1" value="Selectionnez votre point de départ" />
+	<listbox id="box1" multiple="true" model="@load(vm.notes)">
+		<listhead>
+			<listheader label="Commentaire" align="center" />
+			<listheader label="Longitude" align="center" />
+			<listheader label="Latitude" align="center" />
+		</listhead>
+		<template name="model" var="note">
+			<listitem self="@bind(note)" value="@{event}">
+				<listcell label="@bind(note.commentaire)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box1.setVisible(false);
+						box2.setVisible(true);
+						txt1.setVisible(false);
+						txt2.setVisible(true);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lat)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box1.setVisible(false);
+						box2.setVisible(true);
+						txt1.setVisible(false);
+						txt2.setVisible(true);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lon)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box1.setVisible(false);
+						box2.setVisible(true);
+						txt1.setVisible(false);
+						txt2.setVisible(true);
+					]]></attribute>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+	<label id="txt2" visible="false"
+		value="Selectionnez votre point d'arrivée" />
+	<listbox id="box2" visible="false" multiple="true"
+		model="@load(vm.notes)">
+		<listhead>
+			<listheader label="Commentaire" align="center" />
+			<listheader label="Longitude" align="center" />
+			<listheader label="Latitude" align="center" />
+		</listhead>
+		<template name="model" var="note">
+			<listitem self="@bind(note)" value="@{event}">
+				<listcell label="@bind(note.commentaire)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box2.setVisible(false);
+						box3.setVisible(true);
+						txt2.setVisible(false);
+						txt3.setVisible(true);
+						button.setVisible(true);
+						button2.setVisible(true);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lat)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box2.setVisible(false);
+						box3.setVisible(true);
+						txt2.setVisible(false);
+						txt3.setVisible(true);
+						button.setVisible(true);
+						button2.setVisible(true);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lon)" height="25px"
+					onClick="@command('ajouterNoteDepartArrivePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						box2.setVisible(false);
+						box3.setVisible(true);
+						txt2.setVisible(false);
+						txt3.setVisible(true);
+						button.setVisible(true);
+						button2.setVisible(true);
+					]]></attribute>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+	<label id="txt3" visible="false"
+		value="Sélectionnez les points intermédiaires (Attention, l'ordre dans lequel vous sélectionnez les points intermédiaires est important)" />
+	<listbox id="box3" model="@load(vm.notes)" visible="false">
+		<listhead>
+			<listheader label="Note numéro X du parcours"
+				align="center" />
+			<listheader label="Commentaire" align="center" />
+			<listheader label="Longitude" align="center" />
+			<listheader label="Latitude" align="center" />
+		</listhead>
+		<template name="model" var="note">
+			<listitem self="@bind(note)" value="@{event}">
+				<listcell label="" height="25px"
+					onClick="@command('ajouterNotePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						int num = com.geonotes.GestionParcoursVM.getParcours().size() + 2;
+						self.getParent().getChildren().get(0).setLabel("" + num);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.commentaire)" height="25px"
+					onClick="@command('ajouterNotePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						int num = com.geonotes.GestionParcoursVM.getParcours().size() + 2;
+						self.getParent().getChildren().get(0).setLabel("" + num);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lat)" height="25px"
+					onClick="@command('ajouterNotePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						int num = com.geonotes.GestionParcoursVM.getParcours().size() + 2;
+						self.getParent().getChildren().get(0).setLabel("" + num);
+					]]></attribute>
+				</listcell>
+				<listcell label="@bind(note.lon)" height="25px"
+					onClick="@command('ajouterNotePourParcours', n=note)">
+					<attribute name="onClick"><![CDATA[
+						int num = com.geonotes.GestionParcoursVM.getParcours().size() + 2;
+						self.getParent().getChildren().get(0).setLabel("" + num);
+					]]></attribute>
+				</listcell>
+			</listitem>
+		</template>
+	</listbox>
+	<button id="button" label="Visualiser le parcours"
+		visible="false">
+		<attribute name="onClick"><![CDATA[
+			mymap.setVisible(true);
+			box3.setVisible(false);
+			txt3.setVisible(false);
+			Component markerStart = new Gmarker();
+			Component polyline = new Gpolyline();
+			markerStart.setLat(com.geonotes.GestionParcoursVM.getParcoursStartEnd()
+					.get(0).getLon());
+			markerStart.setLng(com.geonotes.GestionParcoursVM.getParcoursStartEnd()
+					.get(0).getLat());
+			polyline.setPoints(""
+					+ com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(0)
+							.getLon()
+					+ ","
+					+ com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(0)
+							.getLat() + ",0");
+			mymap.setLat(com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(0)
+					.getLon());
+			mymap.setLng(com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(0)
+					.getLat());
+			mymap.appendChild(markerStart);
+			//List<Note> parcours = com.geonotes.GestionParcoursVM.getParcours();
+			for (int j = 0; j < com.geonotes.GestionParcoursVM.getParcours().size(); j++) {
+				Component markerStart2 = new Gmarker();
+				polyline.setPoints(""
+						+ com.geonotes.GestionParcoursVM.getParcours().get(j).getLon()
+						+ ","
+						+ com.geonotes.GestionParcoursVM.getParcours().get(j).getLat()
+						+ ",0");
+				markerStart2.setLat(com.geonotes.GestionParcoursVM.getParcours().get(j)
+						.getLon());
+				markerStart2.setLng(com.geonotes.GestionParcoursVM.getParcours().get(j)
+						.getLat());
+				mymap.appendChild(markerStart2);
+			}
+			Component markerStart3 = new Gmarker();
+			markerStart3.setLat(com.geonotes.GestionParcoursVM.getParcoursStartEnd()
+					.get(1).getLon());
+			markerStart3.setLng(com.geonotes.GestionParcoursVM.getParcoursStartEnd()
+					.get(1).getLat());
+			polyline.setPoints(""
+					+ com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(1)
+							.getLon()
+					+ ","
+					+ com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(1)
+							.getLat() + ",0");
+			mymap.setLat(com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(1)
+					.getLon());
+			mymap.setLng(com.geonotes.GestionParcoursVM.getParcoursStartEnd().get(1)
+					.getLat());
+			mymap.appendChild(markerStart3);
+			mymap.appendChild(polyline);
+			distance.setValue("Distance : "
+					+ com.geonotes.GestionParcoursVM.distanceParcours() + " Km");
+		]]></attribute>
+	</button>
+	<label id="distance" value="Distance : " />
+	<html:br />
+	<label value="Commentaire : " />
+	<html:br />
+	<textbox id="com2" rows="5000" width="300px" height="100px" />
+	<html:br />
+	<label value="Catégorie : " />
+	<html:br />
+	<textbox id="cat" rows="5000" width="300px" height="100px" />
+	<html:br />
+	<button id="button2" visible="false" label="Créer le parcours"
+		onClick="@command('genererParcours', z=com2.getText(), y=cat.getText())">
+		<attribute name="onClick"><![CDATA[
+			Executions.sendRedirect("./parcours.zul");
+		]]></attribute>
+	</button>
+	<button label="Gérer/Visionner les parcours">
+		<attribute name="onClick"><![CDATA[
+			Executions.sendRedirect("./gestionparcours.zul");
+		]]></attribute>
+	</button>
+	<button label="Recommencer">
+		<attribute name="onClick"><![CDATA[
+			Executions.sendRedirect("./parcours.zul");
+		]]></attribute>
+	</button>
+	<button label="Revenir à la création de Notes">
+		<attribute name="onClick"><![CDATA[
+			Executions.sendRedirect("./index.zul");
+		]]></attribute>
+	</button>
+</window>
