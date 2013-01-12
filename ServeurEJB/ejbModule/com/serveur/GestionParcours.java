@@ -11,7 +11,7 @@ public interface GestionParcours {
 	
 	public List<Parcours> listParcours();
 
-	public void supprimer(String id);
+	public void supprimer(Long id);
 	
 	public Parcours findParcours(Parcours parcours);
 	

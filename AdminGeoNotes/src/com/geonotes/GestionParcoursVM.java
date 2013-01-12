@@ -138,8 +138,9 @@ public class GestionParcoursVM {
 			parcoursFinalTab[j]=parcoursFinal.get(j);
 		}
 		List<Parcours> l = gp.listParcours();
-		int size = l.size()+1;
-		gp.ajouter(new Parcours(""+size,distance,0,""+commentaire,""+categorie,parcoursStartEnd.get(0).getLon(),parcoursStartEnd.get(0).getLat(),
+		//int newId = new Integer(listParcours.get(listParcours.size()-1).getId());
+		//newId++;
+		gp.ajouter(new Parcours(/*""+newId,*/distance,0,""+commentaire,""+categorie,parcoursStartEnd.get(0).getLon(),parcoursStartEnd.get(0).getLat(),
 				parcoursStartEnd.get(1).getLon(),parcoursStartEnd.get(1).getLat(),new Date(System.currentTimeMillis()),parcoursFinalTab));
 	}
 	
@@ -147,8 +148,6 @@ public class GestionParcoursVM {
 		if(lastNote==null){
 			lastNote=notes.get(0);
 		}
-		//double l = lastNote.getLat();
-		//lastNote.setLat(0.0);
 		return lastNote.getLat();
 	}
 	public static double getLastLng(){

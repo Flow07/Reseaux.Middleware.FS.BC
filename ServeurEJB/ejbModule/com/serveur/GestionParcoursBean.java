@@ -16,7 +16,7 @@ public class GestionParcoursBean implements GestionParcours{
 		em.persist(parcours);
 	}
 
-	public void supprimer(String id) {
+	public void supprimer(Long id) {
 		em.createQuery("delete from Parcours p where id = "+id).executeUpdate();
 	}
 
@@ -27,5 +27,5 @@ public class GestionParcoursBean implements GestionParcours{
 	public Parcours findParcours(Parcours parcours) {
 		return em.find(Parcours.class, parcours);
 	}
-	
+
 }

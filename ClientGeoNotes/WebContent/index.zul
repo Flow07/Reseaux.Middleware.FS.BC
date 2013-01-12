@@ -123,7 +123,7 @@
 		<label
 			value="Texte (sera suivit par un lien vers votre parcours): " />
 		<textbox id="body"
-			value="Bonjour, voici le parcours que j'ai choisit : " rows="5000"
+			value="Bonjour, voici le parcours que j'ai choisi : " rows="5000"
 			width="300px" height="100px" />
 		<button label="Envoyer">
 			<attribute name="onClick"><![CDATA[

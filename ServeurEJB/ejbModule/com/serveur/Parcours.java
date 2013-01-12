@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Parcours implements Serializable {
 
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private double distance;
 	private int denivele;
 	private String commentaire;
@@ -26,15 +29,15 @@ public class Parcours implements Serializable {
 		super();
 	}
 	
-	public Parcours(String id){
+	/*public Parcours(String id){
 		super();
 		this.id=id;
-	}
-	public Parcours(String id, double distance, int denivele, String commentaire,
+	}*/
+	public Parcours(double distance, int denivele, String commentaire,
 			String categorie, double lonStart, double latStart, double lonEnd,
 			double latEnd, Date dateCreation, Note[] notes) {
 		super();
-		this.id=id;
+		//this.id=id;
 		this.distance = distance;
 		this.denivele = denivele;
 		this.commentaire = commentaire;
@@ -47,10 +50,10 @@ public class Parcours implements Serializable {
 		this.notes = notes;
 	}
 	
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public double getDistance() {
