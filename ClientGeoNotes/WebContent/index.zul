@@ -24,7 +24,7 @@
 		onCreate='self.setMap(mymap);self.setPanel(panel);'>
 	</gdirection>
 	<label id="label" value="Sélectionnez un parcours" />
-	<listbox id="box3" checkmark="true" multiple="false"
+	<listbox id="box3"
 		model="@load(vm.listParcours)">
 		<listhead>
 			<listheader label="Commentaire" align="center"
